@@ -8,7 +8,6 @@ function AjapõhineAutomatiseerimine() {
       <header>
         <Tagasi/>
       </header>
-      
     </>
   )
 }
