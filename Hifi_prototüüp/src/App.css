@@ -1,0 +1,13 @@
+:root{
+    background-color: rgb(224, 104, 104);
+}
+
+.buttonContainer {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+  }
+
+  
