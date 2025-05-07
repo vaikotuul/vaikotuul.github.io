@@ -8,7 +8,14 @@ function SeadmeteJuhtimine() {
     <>
         <header><Tagasi/> <p>Seadmete juhtimine</p></header>
         <div id="roomSelection">
-          {ruumid.map(ruum => <button className='room-button' key={ruum}>{ruum}</button>)}
+        {ruumid.map(ruum => (
+          <Link
+            to={`/admin/seadmete-juhtimine/${ruum}`}
+            key={ruum}
+          >
+            <button className='room-button'>{ruum}</button>
+          </Link>
+        ))}
         </div>
     </>
   )
