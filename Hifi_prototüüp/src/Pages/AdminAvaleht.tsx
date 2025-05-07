@@ -15,9 +15,6 @@ export default function AdminAvaleht() {
           <button>Kasutajaliidese redigeerimine</button>
         </Link>
         </div>
-        <div>kaka</div>
-        <div>niiedasi</div>
-        <div></div>
     </div>
   )
 }
