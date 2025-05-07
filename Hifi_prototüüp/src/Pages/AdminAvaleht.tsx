@@ -6,7 +6,7 @@ export default function AdminAvaleht() {
     <>
       <header>
         <Link to={"../"}>
-          <button id="logOut">Logi välja</button>
+          <button id="logOut" className="back-button">Logi välja</button>
         </Link>
       </header>
       <div className='buttonContainer'>

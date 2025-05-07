@@ -7,7 +7,7 @@ function Tagasi(){
 
     return(
         <>
-          <button onClick={()=>{
+          <button className='back-button' onClick={()=>{
              if (window.history.length > 1) {
                 navigate(-1);
               } else {
