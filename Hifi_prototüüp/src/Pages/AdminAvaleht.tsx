@@ -6,7 +6,7 @@ export default function AdminAvaleht() {
     <div>
         <div className='buttonContainer'>
         <Link to={'/admin/seadmete-juhtimine'}>
-            <button>Seadete juhtimin</button>
+            <button>Seadete juhtimine</button>
         </Link>
         <button>Ajapõhine automatiseerimine</button>
         <button>Kasutajaliidese redigeerimine</button>
