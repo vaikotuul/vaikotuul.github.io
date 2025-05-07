@@ -9,7 +9,9 @@ export default function AdminAvaleht() {
             <button>Seadete juhtimine</button>
         </Link>
         <button>Ajapõhine automatiseerimine</button>
-        <button>Kasutajaliidese redigeerimine</button>
+        <Link to={'/admin/redigeerimine'}>
+          <button>Kasutajaliidese redigeerimine</button>
+        </Link>
         </div>
     </div>
   )

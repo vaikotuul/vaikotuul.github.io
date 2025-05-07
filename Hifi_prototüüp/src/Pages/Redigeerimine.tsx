@@ -1,15 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function SeadmeteJuhtimine() {
+function Redigeerimine() {
   return (
     <div>
         <Link to={'/admin'}>
-          <button>Tagasi</button>
+            <button>Tagasi</button>
         </Link>
-        <p>Seadmete juhtimine</p>
+        <p>Siin saab muuta kasutajaliidest</p>
     </div>
   )
 }
 
-export default SeadmeteJuhtimine
+export default Redigeerimine
