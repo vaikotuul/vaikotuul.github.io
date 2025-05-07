@@ -70,4 +70,17 @@ button:focus-visible {
 header{
   display: flex;
   justify-content: center;
+  position: fixed;
+  top: 1vh;
+}
+
+.back-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+
+#roomSelection{
+  display:flex;
+  flex-direction: column;
 }

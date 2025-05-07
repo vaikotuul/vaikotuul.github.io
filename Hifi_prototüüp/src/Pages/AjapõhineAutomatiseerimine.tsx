@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Tagasi from '../components/Tagasi'
 
 function AjapõhineAutomatiseerimine() {
   return (
-    <div>
-        <Link to={'/admin'}>
-            <button>Tagasi</button>
-        </Link>
-        <p>Ajapõhine automatiseerimine</p>
-    </div>
+    <>
+      <header>
+        <Tagasi/>
+      </header>
+    </>
   )
 }
 
