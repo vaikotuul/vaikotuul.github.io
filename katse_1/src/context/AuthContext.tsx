@@ -16,7 +16,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock users for demo
+// Mock users
 const MOCK_USERS = [
   { id: "1", username: "admin", password: "admin123", role: "admin" as const },
   { id: "2", username: "user", password: "user123", role: "user" as const },
@@ -34,7 +34,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   const login = async (username: string, password: string): Promise<boolean> => {
-    // Simulating API call with mock data
     const foundUser = MOCK_USERS.find(
       (u) => u.username === username && u.password === password
     );

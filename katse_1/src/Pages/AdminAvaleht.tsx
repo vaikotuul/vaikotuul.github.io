@@ -1,13 +1,21 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext';
 
 export default function AdminAvaleht() {
+
+  const {logout} = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/")
+}
+
   return (
     <>
       <header>
-        <Link to={"../"}>
-          <button id="logOut" className="back-button">Logi välja</button>
-        </Link>
+          <button id="logOut" className="back-button" onClick={handleLogout}>Logi välja</button>
       </header>
       <div className='buttonContainer'>
       <Link to={'/admin/seadmete-juhtimine'}>
