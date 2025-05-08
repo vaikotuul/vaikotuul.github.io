@@ -1,18 +1,28 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useParams } from 'react-router-dom'
 import Tagasi from '../components/Tagasi'
 import '../Kujundus.css'
 
 export function Kujundus_A001(){
-    
+    const [lightsOn, setLightsOn] = useState(false);
+
+    const handleLightsOn = () => setLightsOn(true);
+    const handleLightsOff = () => setLightsOn(false); 
 
     return(
         <>
         <div id="controlPanel">
             <div id="lightsControl">
-                <span className='lights-indicator'></span>
-                <button id="lightsOn">Tuled Sisse</button>
-                <button id="lightsOff">Tuled Välja</button>
+            <span
+                className="lights-indicator"
+                style={{ backgroundColor: lightsOn ? 'green' : 'gray' }}
+            ></span>
+                <button id="lightsOn" onClick={handleLightsOn}>
+                    Tuled Sisse
+                </button>
+                <button id="lightsOff" onClick={handleLightsOff}>
+                    Tuled Välja
+                </button>
             </div>
             <div id="screenControl">
                 <span className="screen-indicator"></span>
