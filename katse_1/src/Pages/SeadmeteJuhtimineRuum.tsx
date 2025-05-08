@@ -20,7 +20,6 @@ function SeadmeteJuhtimineRuum(){
 
     return(
         <>
-        <header><Tagasi/> <p>Seadmete juhtimine</p></header>
         <SelectedComponent/>
         </>
     )

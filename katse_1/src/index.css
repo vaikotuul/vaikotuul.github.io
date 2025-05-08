@@ -1,3 +1,10 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -7,6 +14,7 @@
   color-scheme: light dark;
   color: rgba(244, 244, 244, 0.87);
   background-color: #242424;
+  width: 100% !important;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -16,11 +24,9 @@
 
 body {
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-width: 320px;
   min-height: 100vh;
+  width: 100%;
 }
 
 h1 {
@@ -33,7 +39,7 @@ button {
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   margin: 10px;
-  font-size: 1em;
+  font-size: 20pt;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
@@ -76,6 +82,7 @@ header{
 
 .back-button {
   position: fixed;
+  font-size: 20pt;
   top: 10px;
   left: 10px;
 }
@@ -83,4 +90,18 @@ header{
 #roomSelection{
   display:flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+a{
+  display:flex;
+  justify-content: center;
+}
+
+#header{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: rgb(75, 3, 3);
 }

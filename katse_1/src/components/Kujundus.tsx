@@ -1,74 +1,100 @@
-import React, {useState} from 'react'
-import { useParams } from 'react-router-dom'
-import Tagasi from '../components/Tagasi'
-import '../Kujundus.css'
+import React, { useState, useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Tagasi from '../components/Tagasi';
+import '../Kujundus.css';
 
-export function Kujundus_A001(){
-    const [lightsOn, setLightsOn] = useState(false);
-    const [screenOn, setScreenOn] = useState(false);
-    const [projectorOn, setProjectorOn] = useState(false);
+type Device = {
+    id: string; // Unique identifier for the device
+    name: string; // Display name for the device
+};
 
-    const handleLightsOn = () => {
-        setLightsOn(true);
-        
-    }
-    const handleLightsOff = () => setLightsOn(false); 
+type RoomControlProps = {
+    roomId: string; // Room identifier
+    devices: Device[]; // List of devices in the room
+};
 
-    const handleScreenOn = () => setScreenOn(true);
-    const handleScreenOff = () => setScreenOn(false);
-    
-    const handleProjectorOn = () => setProjectorOn(true);
-    const handleProjectorOff = () => setProjectorOn(false); 
+function RoomControl({ roomId, devices }: RoomControlProps) {
+    const [deviceStates, setDeviceStates] = useState<{ [key: string]: boolean }>(() => {
+        // Initialize states from localStorage or default to false
+        const initialStates: { [key: string]: boolean } = {};
+        devices.forEach((device) => {
+            initialStates[device.id] = JSON.parse(localStorage.getItem(`${roomId}_${device.id}`) || 'false');
+        });
+        return initialStates;
+    });
 
-    return(
+    // Save state changes to localStorage whenever deviceStates change
+    useEffect(() => {
+        Object.keys(deviceStates).forEach((deviceId) => {
+            localStorage.setItem(`${roomId}_${deviceId}`, JSON.stringify(deviceStates[deviceId]));
+        });
+    }, [deviceStates, roomId]);
+
+    const handleDeviceToggle = (deviceId: string, deviceName: string, turnOn: boolean) => {
+        if (deviceStates[deviceId] !== turnOn) {
+            setDeviceStates((prevState) => ({
+                ...prevState,
+                [deviceId]: turnOn,
+            }));
+            toast[turnOn ? 'success' : 'info'](`${deviceName} turned ${turnOn ? 'ON' : 'OFF'} in ${roomId}`);
+        }
+    };
+
+    return (
         <>
-        <div id="controlPanel">
-            <div id="lightsControl">
-            <span
-                className={lightsOn ? 'indicator indicator-on' : "indicator" }
-            ></span>
-                <button id="lightsOn" onClick={handleLightsOn}>
-                    Tuled Sisse
-                </button>
-                <button id="lightsOff" onClick={handleLightsOff}>
-                    Tuled Välja
-                </button>
+            <div id="header">
+                <Tagasi/>
+                <h1>Seadmete juhtimine</h1>
             </div>
-            <div id="screenControl">
-                <span 
-                    className={screenOn ? 'indicator indicator-on' : "indicator" }
-                ></span>
-                <button id="screenOn" onClick={handleScreenOn}>Ekraan Sisse</button>
-                <button id="screenOff" onClick={handleScreenOff}>Ekraan Välja</button>
+            <div id="roomName">{roomId}</div>
+            <div id="controlPanel">
+                {devices.map((device) => (
+                    <div key={device.id} className="deviceControl">
+                        <span
+                            className={deviceStates[device.id] ? 'indicator indicator-on' : 'indicator'}
+                        ></span>
+                        <button
+                            onClick={() => handleDeviceToggle(device.id, device.name, true)}
+                            className='controlButton'
+                        >
+                            {device.name} Sisse
+                        </button>
+                        <button
+                            onClick={() => handleDeviceToggle(device.id, device.name, false)}
+                            className='controlButton'
+                        >
+                            {device.name} Välja
+                        </button>
+                    </div>
+                ))}
             </div>
-            <div id="projectorControl">
-                <span
-                    className={projectorOn ? 'indicator indicator-on' : "indicator" }
-                ></span>
-                <button id="projectorOn" onClick={handleProjectorOn}>Projektor Sisse</button>
-                <button id="projectorOff" onClick={handleProjectorOff}>Projektor Välja</button>
-            </div>
-        </div>
+            <ToastContainer />
         </>
-    )
+    );
 }
 
-export function Kujundus_A002(){
-
-
-    return(
-        <>
-        <Tagasi/>
-        </>
-    )
+export function Kujundus_A001() {
+    const devices = [
+        { id: 'lights', name: 'Tuled' },
+        { id: 'screen', name: 'Ekraan' },
+        { id: 'projector', name: 'Projektor' },
+    ];
+    return <RoomControl roomId="A-001" devices={devices} />;
 }
 
-export function Kujundus_A003(){
+export function Kujundus_A002() {
+    const devices = [
+        { id: 'lights', name: 'Tuled' },
+        { id: 'screen', name: 'Ekraan' },
+    ];
+    return <RoomControl roomId="A-002" devices={devices} />;
+}
 
-
-    return(
-        <>
-        <Tagasi/>
-        </>
-    )
+export function Kujundus_A003() {
+    const devices = [
+        { id: 'lights', name: 'Tuled' },
+        { id: 'projector', name: 'Projektor' },
+    ];
+    return <RoomControl roomId="A-003" devices={devices} />;
 }
