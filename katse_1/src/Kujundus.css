@@ -1,0 +1,30 @@
+#controlPanel{
+    background-color: blue;
+    display:flex;
+    flex-direction: row;
+}
+
+#lightsControl, #screenControl, #projectorControl{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#lightsControl button,
+#screenControl button, 
+#projectorControl button{
+    font-size: 32pt;
+}
+
+.lights-indicator, .screen-indicator, .projector-indicator{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: grey;
+    margin: 10px;
+}
+
+.indicator-on{
+    background-color: rgb(0, 255, 34);
+}
