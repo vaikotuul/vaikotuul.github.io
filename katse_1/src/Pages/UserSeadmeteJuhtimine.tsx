@@ -20,7 +20,7 @@ function UserSeadmeteJuhtimine(){
 
     return(
         <>
-        <header><LogoutButton/> <p>Seadmete juhtimine</p></header>
+        <LogoutButton/>
         <SelectedComponent/>
         </>
     )

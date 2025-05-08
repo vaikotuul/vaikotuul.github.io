@@ -42,7 +42,6 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
     return (
         <>
             <div id="header">
-                <Tagasi/>
                 <h1>Seadmete juhtimine</h1>
             </div>
             <div id="roomName">{roomId}</div>

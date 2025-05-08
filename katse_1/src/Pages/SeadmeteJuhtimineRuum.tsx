@@ -20,6 +20,7 @@ function SeadmeteJuhtimineRuum(){
 
     return(
         <>
+        <Tagasi/>
         <SelectedComponent/>
         </>
     )
