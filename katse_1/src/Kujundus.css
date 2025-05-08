@@ -17,7 +17,7 @@
     font-size: 32pt;
 }
 
-.lights-indicator, .screen-indicator, .projector-indicator{
+.indicator{
     width: 100px;
     height: 100px;
     border-radius: 50%;

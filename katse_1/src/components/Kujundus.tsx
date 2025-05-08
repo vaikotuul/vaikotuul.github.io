@@ -5,17 +5,27 @@ import '../Kujundus.css'
 
 export function Kujundus_A001(){
     const [lightsOn, setLightsOn] = useState(false);
+    const [screenOn, setScreenOn] = useState(false);
+    const [projectorOn, setProjectorOn] = useState(false);
 
-    const handleLightsOn = () => setLightsOn(true);
+    const handleLightsOn = () => {
+        setLightsOn(true);
+        
+    }
     const handleLightsOff = () => setLightsOn(false); 
+
+    const handleScreenOn = () => setScreenOn(true);
+    const handleScreenOff = () => setScreenOn(false);
+    
+    const handleProjectorOn = () => setProjectorOn(true);
+    const handleProjectorOff = () => setProjectorOn(false); 
 
     return(
         <>
         <div id="controlPanel">
             <div id="lightsControl">
             <span
-                className="lights-indicator"
-                style={{ backgroundColor: lightsOn ? 'green' : 'gray' }}
+                className={lightsOn ? 'indicator indicator-on' : "indicator" }
             ></span>
                 <button id="lightsOn" onClick={handleLightsOn}>
                     Tuled Sisse
@@ -25,14 +35,18 @@ export function Kujundus_A001(){
                 </button>
             </div>
             <div id="screenControl">
-                <span className="screen-indicator"></span>
-                <button id="screenOn">Ekraan Sisse</button>
-                <button id="screenOff">Ekraan Välja</button>
+                <span 
+                    className={screenOn ? 'indicator indicator-on' : "indicator" }
+                ></span>
+                <button id="screenOn" onClick={handleScreenOn}>Ekraan Sisse</button>
+                <button id="screenOff" onClick={handleScreenOff}>Ekraan Välja</button>
             </div>
             <div id="projectorControl">
-                <span className="projector-indicator"></span>
-                <button id="projectorOn">Projektor Sisse</button>
-                <button id="projectorOff">Projektor Välja</button>
+                <span
+                    className={projectorOn ? 'indicator indicator-on' : "indicator" }
+                ></span>
+                <button id="projectorOn" onClick={handleProjectorOn}>Projektor Sisse</button>
+                <button id="projectorOff" onClick={handleProjectorOff}>Projektor Välja</button>
             </div>
         </div>
         </>
