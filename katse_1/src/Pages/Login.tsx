@@ -16,7 +16,7 @@ function Login() {
       if (user.role === "admin") {
         navigate("/admin");
       } else if (user.role === "user") {
-        navigate("/user");
+        navigate(`/user/${username}`);
       }
     }
   }, [user, navigate]);

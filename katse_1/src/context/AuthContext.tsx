@@ -19,7 +19,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Mock users
 const MOCK_USERS = [
   { id: "1", username: "admin", password: "admin123", role: "admin" as const },
-  { id: "2", username: "user", password: "user123", role: "user" as const },
+  { id: "2", username: "A-001", password: "user123", role: "user" as const },
+  { id: "3", username: "A-002", password: "user123", role: "user" as const },
+  { id: "4", username: "A-003", password: "user123", role: "user" as const },
 ];
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
