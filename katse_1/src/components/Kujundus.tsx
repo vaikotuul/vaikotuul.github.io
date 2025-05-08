@@ -5,18 +5,17 @@ import Tagasi from '../components/Tagasi';
 import '../Kujundus.css';
 
 type Device = {
-    id: string; // Unique identifier for the device
-    name: string; // Display name for the device
+    id: string;
+    name: string;
 };
 
 type RoomControlProps = {
-    roomId: string; // Room identifier
-    devices: Device[]; // List of devices in the room
+    roomId: string;
+    devices: Device[];
 };
 
 function RoomControl({ roomId, devices }: RoomControlProps) {
     const [deviceStates, setDeviceStates] = useState<{ [key: string]: boolean }>(() => {
-        // Initialize states from localStorage or default to false
         const initialStates: { [key: string]: boolean } = {};
         devices.forEach((device) => {
             initialStates[device.id] = JSON.parse(localStorage.getItem(`${roomId}_${device.id}`) || 'false');
@@ -24,7 +23,6 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
         return initialStates;
     });
 
-    // Save state changes to localStorage whenever deviceStates change
     useEffect(() => {
         Object.keys(deviceStates).forEach((deviceId) => {
             localStorage.setItem(`${roomId}_${deviceId}`, JSON.stringify(deviceStates[deviceId]));
