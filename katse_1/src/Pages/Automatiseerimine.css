@@ -4,7 +4,7 @@
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-  color: #333;
+  color: #ffffff;
 }
 
 /* Header styles */
@@ -35,14 +35,16 @@ header > div {
 }
 
 /* Heading styles */
-h1, h2, h3 {
+h1, h3 {
   text-align: center;
-  color: #333;
+  color: #ffffff;
 }
 
 h2 {
+  text-align: center;
   margin-top: 0;
   margin-bottom: 20px;
+  color: #333;
 }
 
 /* Actions container */
@@ -71,15 +73,21 @@ h2 {
   table-layout: fixed;
   border-collapse: collapse;
   margin-bottom: 20px;
-  color: #333;
+  color: #ffffff;
 }
 
 .actions-table th, .actions-table td,
-.action-table th, .action-table td {
+.action-table th {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
   color: #333;
+}
+.action-table td{
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  color: #ffffff;
 }
 
 .actions-table th, .action-table th {

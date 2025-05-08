@@ -110,79 +110,81 @@ function AjapõhineAutomatiseerimine() {
   }, []);
 
   return (
-    <div className="container">
-      {!showAddAction ? (
-        <>
-          <header>
-            <Tagasi/>
-            <h1>Ajapõhine automatiseerimine</h1>
-          </header>
+    <>
+      <Tagasi/>
+      <div className="container">
+        {!showAddAction ? (
+          <>
+            <header>
+              <h1>Ajapõhine automatiseerimine</h1>
+            </header>
 
-          <div className="actions-container wide-container">
-            <h2>Seadistatud toimingud</h2>
-            
-            {actions.length > 0 ? (
-              <table className="actions-table">
-                <colgroup>
-                  <col style={{ width: '40%' }} />
-                  <col style={{ width: '25%' }} />
-                  <col style={{ width: '25%' }} />
-                  <col style={{ width: '40px' }} />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>Toimumisaeg</th>
-                    <th>Ruum</th>
-                    <th>Seade</th>
-                    <th className="remove-column"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {actions.map((action) => (
-                    <tr key={action.id}>
-                      <td>{action.time}</td>
-                      <td>{action.room}</td>
-                      <td>{action.device}</td>
-                      <td className="remove-action-cell">
-                        <button 
-                          className={`remove-action-icon ${isRemoveMode ? '' : 'hidden'}`}
-                          onClick={() => handleRemoveAction(action.id)}
-                          aria-label="Eemalda toiming"
-                          tabIndex={isRemoveMode ? 0 : -1}
-                        >
-                          &#8722;
-                        </button>
-                      </td>
+            <div className="actions-container wide-container">
+              <h2>Seadistatud toimingud</h2>
+              
+              {actions.length > 0 ? (
+                <table className="actions-table">
+                  <colgroup>
+                    <col style={{ width: '40%' }} />
+                    <col style={{ width: '25%' }} />
+                    <col style={{ width: '25%' }} />
+                    <col style={{ width: '40px' }} />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th>Toimumisaeg</th>
+                      <th>Ruum</th>
+                      <th>Seade</th>
+                      <th className="remove-column"></th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p className="no-actions">Pole ühtegi seadistatud toimingut. Vajuta "Lisa toiming" nupule uue toimingu lisamiseks.</p>
-            )}
-
-            <div className="button-container">
-              {actions.length > 0 && (
-                <button 
-                  className={isRemoveMode ? "remove-mode-active" : "remove-action-button"} 
-                  onClick={toggleRemoveMode}
-                >
-                  {isRemoveMode ? "Lõpeta eemaldamine" : "Eemalda toiming"}
-                </button>
+                  </thead>
+                  <tbody>
+                    {actions.map((action) => (
+                      <tr key={action.id}>
+                        <td>{action.time}</td>
+                        <td>{action.room}</td>
+                        <td>{action.device}</td>
+                        <td className="remove-action-cell">
+                          <button 
+                            className={`remove-action-icon ${isRemoveMode ? '' : 'hidden'}`}
+                            onClick={() => handleRemoveAction(action.id)}
+                            aria-label="Eemalda toiming"
+                            tabIndex={isRemoveMode ? 0 : -1}
+                          >
+                            &#8722;
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p className="no-actions">Pole ühtegi seadistatud toimingut. Vajuta "Lisa toiming" nupule uue toimingu lisamiseks.</p>
               )}
-              <button 
-                className="add-action-button" 
-                onClick={() => setShowAddAction(true)}
-              >
-                Lisa toiming
-              </button>
+
+              <div className="button-container">
+                {actions.length > 0 && (
+                  <button 
+                    className={isRemoveMode ? "remove-mode-active" : "remove-action-button"} 
+                    onClick={toggleRemoveMode}
+                  >
+                    {isRemoveMode ? "Lõpeta eemaldamine" : "Eemalda toiming"}
+                  </button>
+                )}
+                <button 
+                  className="add-action-button" 
+                  onClick={() => setShowAddAction(true)}
+                >
+                  Lisa toiming
+                </button>
+              </div>
             </div>
-          </div>
-        </>
-      ) : (
-        <ToiminguLisamine onSave={handleAddAction} onCancel={() => setShowAddAction(false)} />
-      )}
-    </div>
+          </>
+        ) : (
+          <ToiminguLisamine onSave={handleAddAction} onCancel={() => setShowAddAction(false)} />
+        )}
+      </div>
+    </>
   )
 }
 

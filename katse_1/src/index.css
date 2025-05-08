@@ -85,6 +85,7 @@ header{
   font-size: 20pt;
   top: 10px;
   left: 10px;
+  z-index: 15;
 }
 
 #roomSelection{
