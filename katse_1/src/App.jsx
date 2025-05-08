@@ -7,6 +7,7 @@ import SeadmeteJuhtimine from "./Pages/SeadmeteJuhtimine"
 import Redigeerimine from "./Pages/Redigeerimine"
 import AjapõhineAutomatiseerimine from "./Pages/AjapõhineAutomatiseerimine"
 import SeadmeteJuhtimineRuum from "./Pages/SeadmeteJuhtimineRuum"
+import UserSeadmeteJuhtimine from "./Pages/UserSeadmeteJuhtimine"
 
 function App() {
   const ruumid = ["A-001", "A-002", "A-003"]
@@ -20,6 +21,7 @@ function App() {
         <Route path='/admin/redigeerimine' element={<Redigeerimine/>}/>
         <Route path='/admin/automatiseerimine' element={<AjapõhineAutomatiseerimine/>}/>
         <Route path='/admin/seadmete-juhtimine/:room' element={<SeadmeteJuhtimineRuum/>}/>
+        <Route path='/user/:room' element={<UserSeadmeteJuhtimine/>}/>
       </Routes>
     </>
   )
