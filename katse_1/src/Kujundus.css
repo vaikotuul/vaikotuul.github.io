@@ -1,20 +1,27 @@
 #controlPanel{
-    background-color: blue;
+    background-color: rgb(108, 7, 7);
     display:flex;
     flex-direction: row;
+    justify-content: center;
 }
 
-#lightsControl, #screenControl, #projectorControl{
+#roomName{
+    display: flex;
+    justify-content: center;
+    font-size: 32pt;
+    font-family: 'Roboto';
+}
+
+.deviceControl{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-#lightsControl button,
-#screenControl button, 
-#projectorControl button{
+.controlButton{
     font-size: 32pt;
+    width: 25vw;
 }
 
 .indicator{
