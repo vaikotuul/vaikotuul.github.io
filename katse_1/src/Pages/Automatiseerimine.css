@@ -83,6 +83,7 @@ h2 {
   border-bottom: 1px solid #ddd;
   color: #333;
 }
+
 .action-table td{
   padding: 12px 15px;
   text-align: left;
@@ -127,7 +128,6 @@ h2 {
 
 .cancel-button {
   background-color: #f44336;
-  color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
