@@ -7,16 +7,26 @@
   color: #ffffff;
 }
 
-/* Header styles */
-header {
+/* Header styles - overriding global header styles */
+.container header {
   display: flex;
   align-items: center;
   margin-bottom: 40px;
   position: relative;
   min-height: 60px;
+  position: static;
+  top: auto;
+  justify-content: flex-start;
+  background-color: rgb(75, 3, 3);
+  margin-left: calc(-20px - (100vw - 100%) / 2);
+  margin-right: calc(-20px - (100vw - 100%) / 2);
+  margin-top: -20px;
+  padding: 20px calc((100vw - 100%) / 2 + 20px);
+  width: 100vw;
+  z-index: 10;
 }
 
-header h1 {
+.container header h1 {
   width: 100%;
   text-align: center;
   position: absolute;
@@ -25,22 +35,58 @@ header h1 {
   margin: 0;
   white-space: nowrap;
   font-size: 1.8rem;
+  color: white;
 }
 
-/* Tagasi button positioning */
-header > a, 
-header > div {
+/* Button positioning in header */
+.container header > a, 
+.container header > div,
+.container header > button {
   position: relative;
   z-index: 1;
 }
 
-/* Heading styles */
-h1, h3 {
-  text-align: center;
-  color: #ffffff;
+/* Save button in header */
+.save-button-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 20;
 }
 
-h2 {
+.container header .save-button {
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0.6em 1.2em;
+  margin: 0;
+  font-size: 20pt;
+  font-weight: 500;
+  font-family: inherit;
+  transition: border-color 0.25s;
+}
+
+.container header .save-button.disabled {
+  background-color: #cccccc !important;
+  color: #666666 !important;
+  cursor: not-allowed;
+  font-size: 20pt;
+  font-weight: 500;
+  font-family: inherit;
+  border: none;
+}
+
+/* Cancel button container */
+.cancel-button-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 20;
+}
+
+/* Specific heading styles for this page */
+.container h2 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 20px;
@@ -84,7 +130,7 @@ h2 {
   color: #333;
 }
 
-.action-table td{
+.action-table td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -109,7 +155,7 @@ h2 {
 }
 
 /* Button styles */
-.add-action-button, .dropdown-button, .save-button {
+.add-action-button, .dropdown-button {
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -122,20 +168,29 @@ h2 {
   font-size: 16px;
 }
 
-.add-action-button:hover, .save-button:hover, .dropdown-button:hover {
+.add-action-button:hover, .dropdown-button:hover {
   background-color: #45a049;
 }
 
-.cancel-button {
-  background-color: #f44336;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
+/* Disabled buttons */
+.disabled-dropdown {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
 }
 
-.save-button {
-  padding: 10px 20px;
+.disabled-dropdown:hover {
+  background-color: #cccccc;
+}
+
+.dropdown-content button:disabled {
+  color: #999;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+}
+
+.dropdown-content button:disabled:hover {
+  background-color: #f1f1f1;
 }
 
 /* Form for adding action styles */
@@ -149,16 +204,9 @@ h2 {
 }
 
 /* Table and button alignment */
-.col-time, .col-room, .col-device {
+.col-time, .col-room, .col-device, .col-activity {
   text-align: center;
-  width: 33.33%;
-}
-
-.action-table {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-  margin-bottom: 20px;
+  width: 25%;
 }
 
 /* Button row styles */
@@ -261,6 +309,7 @@ h2 {
   margin-top: 0;
   margin-bottom: 30px;
   font-size: 1.8rem;
+  color: #333;
 }
 
 .time-picker-content label {
@@ -312,13 +361,6 @@ h2 {
   color: white;
 }
 
-/* Form actions */
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
 /* Remove action styles */
 .remove-action-button, .remove-mode-active {
   background-color: #f44336;
@@ -328,10 +370,12 @@ h2 {
   border-radius: 4px;
   cursor: pointer;
   margin-right: 15px;
+  font-size: 16px;
 }
 
 .remove-mode-active {
   background-color: #333;
+  font-size: 16px;
 }
 
 .remove-action-button:hover {
@@ -384,4 +428,47 @@ h2 {
   padding: 30px;
   color: #666;
   font-style: italic;
+}
+
+/* Date input calendar icon styling for WebKit browsers */
+input[type="date"] {
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  padding: 4px;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(0.1); /* makes icon black */
+}
+input[type="date"]::-webkit-input-placeholder { color: #333; }
+input[type="date"]:focus {
+  outline: 2px solid #4CAF50;
+}
+
+/* Weekday checkboxes styling */
+.weekday-checkboxes {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  justify-content: flex-start;
+}
+
+.weekday-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.weekday-checkbox input[type="checkbox"] {
+  width: auto;
+  margin: 0 5px 0 0;
+  cursor: pointer;
+}
+
+.weekday-checkbox label {
+  margin-bottom: 0;
+  font-weight: bold;
+  cursor: pointer;
 } 

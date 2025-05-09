@@ -9,6 +9,7 @@ interface Action {
   time: string;
   room: string;
   device: string;
+  activity: string;
 }
 
 // Helper functions for localStorage
@@ -60,7 +61,7 @@ function AjapõhineAutomatiseerimine() {
     }
   }, [actions, initialized]);
 
-  const handleAddAction = (newAction: { time: string; room: string; device: string }) => {
+  const handleAddAction = (newAction: { time: string; room: string; device: string; activity: string }) => {
     console.log('Adding new action:', newAction);
     const newActionWithId = { id: Date.now(), ...newAction };
     const updatedActions = [...actions, newActionWithId];
@@ -111,7 +112,7 @@ function AjapõhineAutomatiseerimine() {
 
   return (
     <>
-      <Tagasi/>
+      {!showAddAction && <Tagasi/>}
       <div className="container">
         {!showAddAction ? (
           <>
@@ -125,9 +126,10 @@ function AjapõhineAutomatiseerimine() {
               {actions.length > 0 ? (
                 <table className="actions-table">
                   <colgroup>
-                    <col style={{ width: '40%' }} />
-                    <col style={{ width: '25%' }} />
-                    <col style={{ width: '25%' }} />
+                    <col style={{ width: '30%' }} />
+                    <col style={{ width: '20%' }} />
+                    <col style={{ width: '20%' }} />
+                    <col style={{ width: '20%' }} />
                     <col style={{ width: '40px' }} />
                   </colgroup>
                   <thead>
@@ -135,6 +137,7 @@ function AjapõhineAutomatiseerimine() {
                       <th>Toimumisaeg</th>
                       <th>Ruum</th>
                       <th>Seade</th>
+                      <th>Tegevus</th>
                       <th className="remove-column"></th>
                     </tr>
                   </thead>
@@ -144,6 +147,7 @@ function AjapõhineAutomatiseerimine() {
                         <td>{action.time}</td>
                         <td>{action.room}</td>
                         <td>{action.device}</td>
+                        <td>{action.activity}</td>
                         <td className="remove-action-cell">
                           <button 
                             className={`remove-action-icon ${isRemoveMode ? '' : 'hidden'}`}
