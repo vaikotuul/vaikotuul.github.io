@@ -9,7 +9,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store';
 import { setDeviceState } from '../store/deviceSlice';
 import { setPosition, setSize } from '../store/controlPanelSlice';
+import { addDevice, removeDevice } from '../store/deviceListSlice';
 import { Rnd } from 'react-rnd';
+import Modal from 'react-modal';
 
 type Device = {
     id: string;
@@ -20,6 +22,83 @@ type RoomControlProps = {
     roomId: string;
     devices: Device[];
 };
+
+Modal.setAppElement('#root'); // Required for accessibility
+
+function AddDeviceButton({ roomId }: { roomId: string }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [deviceName, setDeviceName] = useState('');
+    const dispatch = useDispatch();
+    const modalRef = React.useRef<HTMLDivElement>(null); // Ref for the modal
+    const addButtonRef = React.useRef<HTMLButtonElement>(null); // Ref for the "Add Device" button
+  
+    const handleAddDevice = () => {
+      if (!deviceName.trim()) {
+        toast.error('Device name cannot be empty!');
+        return;
+      }
+  
+      const newDevice = {
+        id: `device-${Date.now()}`,
+        name: deviceName.trim(),
+      };
+  
+      dispatch(addDevice({ roomId, device: newDevice }));
+      toast.success(`Device "${deviceName}" added successfully!`);
+      setDeviceName(''); // Clear the input
+      setIsModalOpen(false); // Close the modal
+    };
+  
+    // Manage focus when the modal opens and closes
+    useEffect(() => {
+      if (isModalOpen) {
+        // Move focus to the modal when it opens
+        modalRef.current?.focus();
+      } else {
+        // Return focus to the "Add Device" button when the modal closes
+        addButtonRef.current?.focus();
+      }
+    }, [isModalOpen]);
+  
+    return (
+      <>
+        <button
+          ref={addButtonRef}
+          onClick={() => setIsModalOpen(true)}
+          className="add-device-button"
+          style={{
+            position: 'fixed',
+            left: '180px',
+            top: '15px',
+            fontSize: '20pt',
+            fontFamily: 'system-ui, Avenir, Helvetica, Arial, sans-serif',
+          }}
+        >
+          Add Device
+        </button>
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={() => setIsModalOpen(false)}
+          contentLabel="Add Device"
+          className="modal"
+          overlayClassName="overlay"
+          ariaHideApp={true} // Ensure aria-hidden is applied correctly
+        >
+          <div ref={modalRef} tabIndex={-1}>
+            <h2>Add New Device</h2>
+            <input
+              type="text"
+              value={deviceName}
+              onChange={(e) => setDeviceName(e.target.value)}
+              placeholder="Enter device name"
+            />
+            <button onClick={handleAddDevice}>Add</button>
+            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+          </div>
+        </Modal>
+      </>
+    );
+  }
 
 function RoomControl({ roomId, devices }: RoomControlProps) {
     const dispatch = useDispatch<AppDispatch>();
@@ -135,7 +214,10 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
   
     return (
         <div id="roomEdit">
-          <div id="roomName">{roomId}</div>
+          <div id="roomName">
+            <span>{roomId}</span>
+            <AddDeviceButton roomId={roomId || 'default-room'}/>
+          </div>
           <div id="controlPanel" style={{border:"2px solid white"}}>
             {devices.map((device) => {
               const position = controlPanelPositions[device.id]?.position || { x: 0, y: 0 };
@@ -229,14 +311,16 @@ export function Kujundus({ mode }: KujundusProps) {
 
     return (
         <>
-            <Tagasi />
             <div id="header">
+                <Tagasi />
                 <h1>{mode === 'control' ? 'Seadmete juhtimine' : 'Kasutajaliidese redigeerimine'}</h1>
             </div>
             {mode === 'control' ? (
                 <RoomControl roomId={room || 'default-room'} devices={devices} />
             ) : (
+                <>
                 <RoomEdit roomId={room || 'default-room'} devices={devices} />
+                </>
             )}
         </>
     );

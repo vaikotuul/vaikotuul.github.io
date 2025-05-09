@@ -83,9 +83,9 @@ header{
 .back-button {
   position: fixed;
   font-size: 20pt;
-  top: 10px;
+  top: 15px;
   left: 10px;
-  z-index: 15;
+  z-index: 21;
 }
 
 #roomSelection{
