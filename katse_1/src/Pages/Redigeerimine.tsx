@@ -10,7 +10,7 @@ function Redigeerimine() {
         <div id="roomSelection">
         {ruumid.map(ruum => (
           <Link
-            to={`/admin/seadmete-juhtimine/${ruum}`}
+            to={`/admin/redigeerimine/${ruum}`}
             key={ruum}
           >
             <button className='room-button'>{ruum}</button>
