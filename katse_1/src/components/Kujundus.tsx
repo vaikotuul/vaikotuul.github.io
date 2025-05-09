@@ -6,7 +6,7 @@ import '../Kujundus.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store';
 import { setDeviceState } from '../store/deviceSlice';
-import { setPosition } from '../store/controlPanelSlice';
+import { setPosition, setSize } from '../store/controlPanelSlice';
 import { Rnd } from 'react-rnd';
 
 type Device = {
@@ -31,6 +31,9 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
     const controlPanelPositions = useSelector(
         (state: RootState) => state.controlPanel[roomId] || {}
     );
+    const controlPanelSizes = useSelector(
+        (state: RootState) => state.controlPanel[roomId] || {}
+    );
 
     const handleDeviceToggle = (deviceId: string, deviceName: string, turnOn: boolean) => {
         if (deviceStates[deviceId] !== turnOn) {
@@ -41,34 +44,41 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
 
     const handleDragStop = (deviceId: string, x: number, y: number) => {
         dispatch(
-        setPosition({
-            roomId,
-            deviceId,
-            position: { x, y },
-        })
+            setPosition({
+                roomId,
+                deviceId,
+                position: { x, y },
+            })
         );
     };
 
     const handleResizeStop = (deviceId: string, width: number, height: number) => {
-        // Optionally, store the new size in the Redux store if needed
-        console.log(`Device ${deviceId} resized to width: ${width}, height: ${height}`);
+        dispatch(
+            setSize({
+                roomId,
+                deviceId,
+                size: { width, height },
+            })
+        );
     };
 
     return (
         <>
             <div id="roomName">{roomId}</div>
-            <div id="controlPanel" style={{ position: 'relative', width: '100%', height: '500px' }}>
+            <div id="controlPanel">
                 {devices.map((device) => (
                 <Rnd
                     key={device.id}
                     default={{
-                        x: controlPanelPositions[device.id]?.x || 0,
-                        y: controlPanelPositions[device.id]?.y || 0,
-                        width: 100,
-                        height: 50,
+                        x: controlPanelPositions[device.id]?.position.x || 0,
+                        y: controlPanelPositions[device.id]?.position.y || 0,
+                        width: controlPanelSizes[device.id]?.size.width || 320,
+                        height: controlPanelSizes[device.id]?.size.height || 420,
                     }}
                     bounds="parent"
-                    onDragStop={(e, data) => handleDragStop(device.id, data.x, data.y)}
+                    onDragStop={(e, data) => {
+                        handleDragStop(device.id, data.x, data.y)}
+                    }
                     onResizeStop={(e, direction, ref, delta, position) => {
                         handleResizeStop(device.id, ref.offsetWidth, ref.offsetHeight);
                     }}
