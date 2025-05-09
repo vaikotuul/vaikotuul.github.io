@@ -136,7 +136,7 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
     return (
         <div id="roomEdit">
           <div id="roomName">{roomId}</div>
-          <div id="controlPanel">
+          <div id="controlPanel" style={{border:"2px solid white"}}>
             {devices.map((device) => {
               const position = controlPanelPositions[device.id]?.position || { x: 0, y: 0 };
               const size = controlPanelSizes[device.id]?.size || { width: 320, height: 420 };
@@ -225,11 +225,7 @@ type KujundusProps = {
 export function Kujundus({ mode }: KujundusProps) {
     const { room } = useParams<{ room: string }>(); // Extract roomId from URL parameters
 
-    const devices = [
-        { id: 'lights', name: 'Tuled' },
-        { id: 'screen', name: 'Ekraan' },
-        { id: 'projector', name: 'Projektor' },
-    ];
+    const devices = useSelector((state: RootState) => state.deviceList[room || 'default-room'] || [])
 
     return (
         <>
