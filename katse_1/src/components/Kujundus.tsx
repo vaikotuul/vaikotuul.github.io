@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Tagasi from '../components/Tagasi';
+import LogoutButton from '../components/Logout';
 import { useParams } from 'react-router-dom';
 import '../Kujundus.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -58,8 +59,6 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
                   top: position.y,
                   width: size.width,
                   height: size.height,
-                  border: '1px solid #ccc',
-                  padding: '10px',
                 }}
               >
                 <span
@@ -70,6 +69,8 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
                     alignItems: 'center',
                     width: '100%',
                     height: '100%',
+                    color: 'black',
+                    fontSize: `${Math.min(size.width, size.height)*0.1}px`
                   }}
                 >
                   {device.name}
@@ -133,58 +134,87 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
     };
   
     return (
-      <div id="roomEdit">
-        <div id="roomName">{roomId}</div>
-        <div id="controlPanel">
-          {devices.map((device) => (
-            <Rnd
-              key={device.id}
-              default={{
-                x: controlPanelPositions[device.id]?.position.x || 0,
-                y: controlPanelPositions[device.id]?.position.y || 0,
-                width: controlPanelSizes[device.id]?.size.width || 320,
-                height: controlPanelSizes[device.id]?.size.height || 420,
-              }}
-              bounds="parent"
-              onDragStop={(e, data) => {
-                handleDragStop(device.id, data.x, data.y);
-              }}
-              onResizeStop={(e, direction, ref, delta, position) => {
-                handleResizeStop(device.id, ref.offsetWidth, ref.offsetHeight);
-              }}
-              enableResizing={true}
-              style={{
-                position: 'absolute',
-                border: '1px solid #ccc',
-                padding: '10px',
-                cursor: 'move',
-              }}
-            >
-              <div
-                className="deviceControl"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-              >
-                <span
-                  className="indicator"
+        <div id="roomEdit">
+          <div id="roomName">{roomId}</div>
+          <div id="controlPanel">
+            {devices.map((device) => {
+              const position = controlPanelPositions[device.id]?.position || { x: 0, y: 0 };
+              const size = controlPanelSizes[device.id]?.size || { width: 320, height: 420 };
+    
+              return (
+                <Rnd
+                  key={device.id}
+                  default={{
+                    x: position.x,
+                    y: position.y,
+                    width: size.width,
+                    height: size.height,
+                  }}
+                  bounds="parent"
+                  onDragStop={(e, data) => {
+                    handleDragStop(device.id, data.x, data.y);
+                  }}
+                  onResizeStop={(e, direction, ref, delta, position) => {
+                    handleResizeStop(device.id, ref.offsetWidth, ref.offsetHeight);
+                  }}
+                  enableResizing={true}
                   style={{
-                    color: 'black',
-                    width: 100,
-                    height: 100,
-                    justifyContent: 'center',
-                    display: 'flex',
-                    alignItems: 'center',
+                    position: 'absolute',
+                    border: '2px dashed #ccc',
+                    cursor: 'move',
                   }}
                 >
-                  {device.name}
-                </span>
-              </div>
-            </Rnd>
-          ))}
+                  <div
+                    className="deviceControl"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  >
+                    <span
+                      className="indicator"
+                      style={{
+                        color: 'black',
+                        width: '100%',
+                        height: '100%',
+                        justifyContent: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: `${Math.min(size.width, size.height)*0.1}px`
+                      }}
+                    >
+                      {device.name}
+                    </span>
+                    <button
+                      className="controlButton"
+                      style={{
+                        width: '100%',
+                        height: '30%',
+                        cursor: 'not-allowed', // Change cursor to indicate disabled state
+                        opacity: 0.5, // Optional: Make the button look disabled
+                      }}
+                      disabled // Disable the button
+                    >
+                      ON
+                    </button>
+                    <button
+                      className="controlButton"
+                      style={{
+                        width: '100%',
+                        height: '30%',
+                        cursor: 'not-allowed', // Change cursor to indicate disabled state
+                        opacity: 0.5, // Optional: Make the button look disabled
+                      }}
+                      disabled // Disable the button
+                    >
+                      OFF
+                    </button>
+                  </div>
+                </Rnd>
+              );
+            })}
+          </div>
         </div>
-      </div>
     );
 }
 
@@ -205,7 +235,7 @@ export function Kujundus({ mode }: KujundusProps) {
         <>
             <Tagasi />
             <div id="header">
-                <h1>{mode === 'control' ? 'Seadmete juhtimine' : 'Kujunduse redigeerimine'}</h1>
+                <h1>{mode === 'control' ? 'Seadmete juhtimine' : 'Kasutajaliidese redigeerimine'}</h1>
             </div>
             {mode === 'control' ? (
                 <RoomControl roomId={room || 'default-room'} devices={devices} />

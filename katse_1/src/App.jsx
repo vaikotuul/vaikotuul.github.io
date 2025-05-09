@@ -6,8 +6,6 @@ import AdminAvaleht from "./Pages/AdminAvaleht"
 import SeadmeteJuhtimine from "./Pages/SeadmeteJuhtimine"
 import Redigeerimine from "./Pages/Redigeerimine"
 import AjapõhineAutomatiseerimine from "./Pages/AjapõhineAutomatiseerimine"
-import SeadmeteJuhtimineRuum from "./Pages/SeadmeteJuhtimineRuum"
-import UserSeadmeteJuhtimine from "./Pages/UserSeadmeteJuhtimine"
 import { Kujundus } from './components/Kujundus';
 
 function App() {
