@@ -25,80 +25,106 @@ type DragItem = {
     deviceId: string;
   };
 
-  function RoomControl({ roomId, devices }: RoomControlProps) {
+function RoomControl({ roomId, devices }: RoomControlProps) {
     const dispatch = useDispatch<AppDispatch>();
     const deviceStates = useSelector((state: RootState) => state.devices[roomId] || {});
     const controlPanelPositions = useSelector(
-      (state: RootState) => state.controlPanel[roomId] || {}
+        (state: RootState) => state.controlPanel[roomId] || {}
     );
-  
+
     const handleDeviceToggle = (deviceId: string, deviceName: string, turnOn: boolean) => {
-      if (deviceStates[deviceId] !== turnOn) {
+        if (deviceStates[deviceId] !== turnOn) {
         dispatch(setDeviceState({ roomId, deviceId, state: turnOn }));
         toast[turnOn ? 'success' : 'info'](`${deviceName} turned ${turnOn ? 'ON' : 'OFF'} in ${roomId}`);
-      }
+        }
     };
-  
+
     const handleDragStop = (deviceId: string, x: number, y: number) => {
-      dispatch(
+        dispatch(
         setPosition({
-          roomId,
-          deviceId,
-          position: { x, y },
+            roomId,
+            deviceId,
+            position: { x, y },
         })
-      );
+        );
     };
-  
+
+    const handleResizeStop = (deviceId: string, width: number, height: number) => {
+        // Optionally, store the new size in the Redux store if needed
+        console.log(`Device ${deviceId} resized to width: ${width}, height: ${height}`);
+    };
+
     return (
-      <>
-        <div id="header">
-          <h1>Seadmete juhtimine</h1>
-        </div>
-        <div id="roomName">{roomId}</div>
-        <div id="controlPanel">
-          {devices.map((device) => (
-            <Rnd
-              key={device.id}
-              default={{
-                x: controlPanelPositions[device.id]?.x || 0,
-                y: controlPanelPositions[device.id]?.y || 0,
-                width: 100,
-                height: 50,
-              }}
-              bounds="parent"
-              onDragStop={(e, data) => handleDragStop(device.id, data.x, data.y)}
-              enableResizing={false} // Disable resizing if not needed
-              style={{
-                position: 'absolute',
-                backgroundColor: '#f0f0f0',
-                border: '1px solid #ccc',
-                padding: '10px',
-                cursor: 'move',
-              }}
-            >
-              <div className='deviceControl'>
-                <span
-                  className={deviceStates[device.id] ? 'indicator indicator-on' : 'indicator'}
-                ></span>
-                <button
-                  onClick={() => handleDeviceToggle(device.id, device.name, true)}
-                  className="controlButton"
+        <>
+            <div id="roomName">{roomId}</div>
+            <div id="controlPanel" style={{ position: 'relative', width: '100%', height: '500px' }}>
+                {devices.map((device) => (
+                <Rnd
+                    key={device.id}
+                    default={{
+                        x: controlPanelPositions[device.id]?.x || 0,
+                        y: controlPanelPositions[device.id]?.y || 0,
+                        width: 100,
+                        height: 50,
+                    }}
+                    bounds="parent"
+                    onDragStop={(e, data) => handleDragStop(device.id, data.x, data.y)}
+                    onResizeStop={(e, direction, ref, delta, position) => {
+                        handleResizeStop(device.id, ref.offsetWidth, ref.offsetHeight);
+                    }}
+                    enableResizing={true}
+                    style={{
+                        position: 'absolute',
+                        border: '1px solid #ccc',
+                        padding: '10px',
+                        cursor: 'move',
+                    }}
                 >
-                  {device.name} Sisse
-                </button>
-                <button
-                  onClick={() => handleDeviceToggle(device.id, device.name, false)}
-                  className="controlButton"
+                <div
+                    className="deviceControl"
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                    }}
                 >
-                  {device.name} Välja
-                </button>
-              </div>
+                    <span
+                        className={deviceStates[device.id] ? 'indicator indicator-on' : 'indicator'}
+                        style={{
+                            color: 'black',
+                            width: 100,
+                            height: 100,
+                            justifyContent: 'center',
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}
+                    >{device.name}</span>
+                    <button
+                        onClick={() => handleDeviceToggle(device.id, device.name, true)}
+                        className="controlButton"
+                        style={{
+                            width: '100%',
+                            height: '30%',
+                        }}
+                    >
+                        ON
+                    </button>
+                    <button
+                        onClick={() => handleDeviceToggle(device.id, device.name, false)}
+                        className="controlButton"
+                        style={{
+                            width: '100%',
+                            height: '30%',
+                        }}
+                    >
+                        OFF
+                    </button>
+                </div>
             </Rnd>
-          ))}
-        </div>
-        <ToastContainer aria-label="Notification container" />
-      </>
-    );
+            ))}
+            </div>
+            <ToastContainer aria-label="Notification container" />
+        </>
+    )
 }
 
 export function Kujundus_A001() {
@@ -107,7 +133,14 @@ export function Kujundus_A001() {
         { id: 'screen', name: 'Ekraan' },
         { id: 'projector', name: 'Projektor' },
     ];
-    return <RoomControl roomId="A-001" devices={devices} />;
+    return (
+        <>
+        <div id="header">
+            <h1>Seadmete juhtimine</h1>
+        </div>
+        <RoomControl roomId="A-001" devices={devices} />
+        </>
+    );
 }
 
 export function Kujundus_A002() {
@@ -115,7 +148,14 @@ export function Kujundus_A002() {
         { id: 'lights', name: 'Tuled' },
         { id: 'screen', name: 'Ekraan' },
     ];
-    return <RoomControl roomId="A-002" devices={devices} />;
+    return (
+        <>
+        <div id="header">
+            <h1>Seadmete juhtimine</h1>
+        </div>
+        <RoomControl roomId="A-002" devices={devices} />
+        </>
+    );
 }
 
 export function Kujundus_A003() {
@@ -123,5 +163,12 @@ export function Kujundus_A003() {
         { id: 'lights', name: 'Tuled' },
         { id: 'projector', name: 'Projektor' },
     ];
-    return <RoomControl roomId="A-003" devices={devices} />;
+    return (
+        <>
+        <div id="header">
+            <h1>Seadmete juhtimine</h1>
+        </div>
+        <RoomControl roomId="A-003" devices={devices} />
+        </>
+    );
 }

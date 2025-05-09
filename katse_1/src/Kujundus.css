@@ -5,7 +5,7 @@
     justify-content: center;
     position: relative;
     width: 100%; /* Set a specific width if needed */
-    height: 800px; /* Set a specific height if needed */
+    height: 00px; /* Set a specific height if needed */
     border: 1px solid #ccc; /* Optional: Add a border for visibility */
 }
 
@@ -28,11 +28,12 @@
 .controlButton{
     font-size: 32pt;
     width: 25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .indicator{
-    width: 100px;
-    height: 100px;
     border-radius: 50%;
     background-color: grey;
     margin: 10px;
