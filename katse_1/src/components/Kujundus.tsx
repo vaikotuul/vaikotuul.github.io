@@ -6,6 +6,8 @@ import '../Kujundus.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store';
 import { setDeviceState } from '../store/deviceSlice';
+import { setPosition } from '../store/controlPanelSlice';
+import { Rnd } from 'react-rnd';
 
 type Device = {
     id: string;
@@ -17,15 +19,34 @@ type RoomControlProps = {
     devices: Device[];
 };
 
-function RoomControl({ roomId, devices }: RoomControlProps) {
+type DragItem = {
+    type: string;
+    id: string;
+    deviceId: string;
+  };
+
+  function RoomControl({ roomId, devices }: RoomControlProps) {
     const dispatch = useDispatch<AppDispatch>();
     const deviceStates = useSelector((state: RootState) => state.devices[roomId] || {});
+    const controlPanelPositions = useSelector(
+      (state: RootState) => state.controlPanel[roomId] || {}
+    );
   
     const handleDeviceToggle = (deviceId: string, deviceName: string, turnOn: boolean) => {
       if (deviceStates[deviceId] !== turnOn) {
         dispatch(setDeviceState({ roomId, deviceId, state: turnOn }));
         toast[turnOn ? 'success' : 'info'](`${deviceName} turned ${turnOn ? 'ON' : 'OFF'} in ${roomId}`);
       }
+    };
+  
+    const handleDragStop = (deviceId: string, x: number, y: number) => {
+      dispatch(
+        setPosition({
+          roomId,
+          deviceId,
+          position: { x, y },
+        })
+      );
     };
   
     return (
@@ -36,23 +57,43 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
         <div id="roomName">{roomId}</div>
         <div id="controlPanel">
           {devices.map((device) => (
-            <div key={device.id} className="deviceControl">
-              <span
-                className={deviceStates[device.id] ? 'indicator indicator-on' : 'indicator'}
-              ></span>
-              <button
-                onClick={() => handleDeviceToggle(device.id, device.name, true)}
-                className="controlButton"
-              >
-                {device.name} Sisse
-              </button>
-              <button
-                onClick={() => handleDeviceToggle(device.id, device.name, false)}
-                className="controlButton"
-              >
-                {device.name} Välja
-              </button>
-            </div>
+            <Rnd
+              key={device.id}
+              default={{
+                x: controlPanelPositions[device.id]?.x || 0,
+                y: controlPanelPositions[device.id]?.y || 0,
+                width: 100,
+                height: 50,
+              }}
+              bounds="parent"
+              onDragStop={(e, data) => handleDragStop(device.id, data.x, data.y)}
+              enableResizing={false} // Disable resizing if not needed
+              style={{
+                position: 'absolute',
+                backgroundColor: '#f0f0f0',
+                border: '1px solid #ccc',
+                padding: '10px',
+                cursor: 'move',
+              }}
+            >
+              <div className='deviceControl'>
+                <span
+                  className={deviceStates[device.id] ? 'indicator indicator-on' : 'indicator'}
+                ></span>
+                <button
+                  onClick={() => handleDeviceToggle(device.id, device.name, true)}
+                  className="controlButton"
+                >
+                  {device.name} Sisse
+                </button>
+                <button
+                  onClick={() => handleDeviceToggle(device.id, device.name, false)}
+                  className="controlButton"
+                >
+                  {device.name} Välja
+                </button>
+              </div>
+            </Rnd>
           ))}
         </div>
         <ToastContainer aria-label="Notification container" />
