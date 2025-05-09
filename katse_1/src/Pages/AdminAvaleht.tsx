@@ -12,7 +12,7 @@ export default function AdminAvaleht() {
       </header>
       <div className='buttonContainer'>
       <Link to={'/admin/seadmete-juhtimine'}>
-        <button>Seadete juhtimine</button>
+        <button>Seadmete juhtimine</button>
       </Link>
       <Link to={'/admin/automatiseerimine'}>
         <button>Ajapõhine automatiseerimine</button>

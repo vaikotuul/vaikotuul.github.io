@@ -3,6 +3,9 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Tagasi from '../components/Tagasi';
 import '../Kujundus.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store/store';
+import { setDeviceState } from '../store/deviceSlice';
 
 type Device = {
     id: string;
@@ -15,59 +18,45 @@ type RoomControlProps = {
 };
 
 function RoomControl({ roomId, devices }: RoomControlProps) {
-    const [deviceStates, setDeviceStates] = useState<{ [key: string]: boolean }>(() => {
-        const initialStates: { [key: string]: boolean } = {};
-        devices.forEach((device) => {
-            initialStates[device.id] = JSON.parse(localStorage.getItem(`${roomId}_${device.id}`) || 'false');
-        });
-        return initialStates;
-    });
-
-    useEffect(() => {
-        Object.keys(deviceStates).forEach((deviceId) => {
-            localStorage.setItem(`${roomId}_${deviceId}`, JSON.stringify(deviceStates[deviceId]));
-        });
-    }, [deviceStates, roomId]);
-
+    const dispatch = useDispatch<AppDispatch>();
+    const deviceStates = useSelector((state: RootState) => state.devices[roomId] || {});
+  
     const handleDeviceToggle = (deviceId: string, deviceName: string, turnOn: boolean) => {
-        if (deviceStates[deviceId] !== turnOn) {
-            setDeviceStates((prevState) => ({
-                ...prevState,
-                [deviceId]: turnOn,
-            }));
-            toast[turnOn ? 'success' : 'info'](`${deviceName} turned ${turnOn ? 'ON' : 'OFF'} in ${roomId}`);
-        }
+      if (deviceStates[deviceId] !== turnOn) {
+        dispatch(setDeviceState({ roomId, deviceId, state: turnOn }));
+        toast[turnOn ? 'success' : 'info'](`${deviceName} turned ${turnOn ? 'ON' : 'OFF'} in ${roomId}`);
+      }
     };
-
+  
     return (
-        <>
-            <div id="header">
-                <h1>Seadmete juhtimine</h1>
+      <>
+        <div id="header">
+          <h1>Seadmete juhtimine</h1>
+        </div>
+        <div id="roomName">{roomId}</div>
+        <div id="controlPanel">
+          {devices.map((device) => (
+            <div key={device.id} className="deviceControl">
+              <span
+                className={deviceStates[device.id] ? 'indicator indicator-on' : 'indicator'}
+              ></span>
+              <button
+                onClick={() => handleDeviceToggle(device.id, device.name, true)}
+                className="controlButton"
+              >
+                {device.name} Sisse
+              </button>
+              <button
+                onClick={() => handleDeviceToggle(device.id, device.name, false)}
+                className="controlButton"
+              >
+                {device.name} Välja
+              </button>
             </div>
-            <div id="roomName">{roomId}</div>
-            <div id="controlPanel">
-                {devices.map((device) => (
-                    <div key={device.id} className="deviceControl">
-                        <span
-                            className={deviceStates[device.id] ? 'indicator indicator-on' : 'indicator'}
-                        ></span>
-                        <button
-                            onClick={() => handleDeviceToggle(device.id, device.name, true)}
-                            className='controlButton'
-                        >
-                            {device.name} Sisse
-                        </button>
-                        <button
-                            onClick={() => handleDeviceToggle(device.id, device.name, false)}
-                            className='controlButton'
-                        >
-                            {device.name} Välja
-                        </button>
-                    </div>
-                ))}
-            </div>
-            <ToastContainer />
-        </>
+          ))}
+        </div>
+        <ToastContainer aria-label="Notification container" />
+      </>
     );
 }
 
