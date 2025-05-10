@@ -31,12 +31,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    margin-bottom: 10px;
 }
 
 .indicator{
     border-radius: 50%;
     background-color: grey;
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .indicator-on{
@@ -63,4 +66,18 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
     z-index: 999; /* Ensure it is below the modal but above other content */
+}
+
+.delete-device-button {
+    background-color: rgb(255, 0, 0);
+    color: white;
+    margin: 0;
+    padding: 3px 10px 3px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 30px;
+}
+
+.delete-device-button:hover {
+    background-color: #630a0a;
 }

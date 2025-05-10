@@ -211,6 +211,11 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
         })
       );
     };
+
+    const handleDeleteDevice = (deviceId: string) => {
+      dispatch(removeDevice({ roomId, deviceId }));
+      toast.success(`Device with ID "${deviceId}" removed successfully!`);
+    };
   
     return (
         <div id="roomEdit">
@@ -232,7 +237,7 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
                     width: size.width,
                     height: size.height,
                   }}
-                  bounds="parent"
+                  bounds="#controlPanel"
                   onDragStop={(e, data) => {
                     handleDragStop(device.id, data.x, data.y);
                   }}
@@ -253,6 +258,20 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
                       height: '100%',
                     }}
                   >
+                    {/* Delete Button */}
+                    <button
+                      className="delete-device-button"
+                      onClick={() => handleDeleteDevice(device.id)}
+                      style={{
+                        position: 'absolute',
+                        top: '-54px', // Position above the Rnd container
+                        right: '0', // Align to the right edge of the Rnd container
+                        zIndex: 10, // Ensure it stays above the Rnd container
+                      }}
+                    >
+                      🗑
+                    </button>
+
                     <span
                       className="indicator"
                       style={{
