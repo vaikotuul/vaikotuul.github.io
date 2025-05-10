@@ -330,7 +330,7 @@ type KujundusProps = {
     mode: 'control' | 'edit';
 };
 
-export function Kujundus({ mode }: KujundusProps) {
+export function KujundusAdmin({ mode }: KujundusProps) {
     const { room } = useParams<{ room: string }>(); // Extract roomId from URL parameters
 
     const devices = useSelector((state: RootState) => state.deviceList[room || 'default-room'] || [])
@@ -354,4 +354,21 @@ export function Kujundus({ mode }: KujundusProps) {
             )}
         </>
     );
+}
+
+export function KujundusUser() {
+  const { room } = useParams<{ room: string}>();
+
+  const devices = useSelector((state: RootState) => state.deviceList[room || 'default-room'] || [])
+
+  return(
+    <>
+      <div id="header">
+        <LogoutButton />
+        <h1>Seadmete Juhtimine</h1>
+      </div>
+      <RoomControl roomId={room || 'default-room'} devices={devices} />
+      <ToastContainer aria-label="Notification container" />
+    </>
+  )
 }
