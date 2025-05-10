@@ -178,7 +178,6 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
             );
           })}
         </div>
-        <ToastContainer aria-label="Notification container" />
       </div>
     );
 }
@@ -212,9 +211,17 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
       );
     };
 
-    const handleDeleteDevice = (deviceId: string) => {
-      dispatch(removeDevice({ roomId, deviceId }));
-      toast.success(`Device with ID "${deviceId}" removed successfully!`);
+    const handleDeleteDevice = (deviceId: string, deviceName: string) => {
+      const confirmDelete = window.confirm(
+        `Are you sure you want to delete "${deviceName}"?`
+      );
+    
+      if (confirmDelete) {
+        dispatch(removeDevice({ roomId, deviceId }));
+        toast.success(`Device "${deviceName}" removed successfully!`);
+      } else {
+        toast.info(`Deletion of device "${deviceName}" was canceled.`);
+      }
     };
   
     return (
@@ -261,7 +268,7 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
                     {/* Delete Button */}
                     <button
                       className="delete-device-button"
-                      onClick={() => handleDeleteDevice(device.id)}
+                      onClick={() => handleDeleteDevice(device.id, device.name)}
                       style={{
                         position: 'absolute',
                         top: '-54px', // Position above the Rnd container
@@ -335,10 +342,14 @@ export function Kujundus({ mode }: KujundusProps) {
                 <h1>{mode === 'control' ? 'Seadmete juhtimine' : 'Kasutajaliidese redigeerimine'}</h1>
             </div>
             {mode === 'control' ? (
-                <RoomControl roomId={room || 'default-room'} devices={devices} />
+                <>
+                  <RoomControl roomId={room || 'default-room'} devices={devices} />
+                  <ToastContainer aria-label="Notification container" />
+                </>
             ) : (
                 <>
-                <RoomEdit roomId={room || 'default-room'} devices={devices} />
+                  <RoomEdit roomId={room || 'default-room'} devices={devices} />
+                  <ToastContainer aria-label="Notification container" />
                 </>
             )}
         </>
