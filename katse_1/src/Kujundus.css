@@ -1,19 +1,21 @@
 #controlPanel{
-    background-color: rgb(108, 7, 7);
+    background-color: var(--control-panel-background-color);
+    color: var(--control-panel-color);
     display:flex;
     flex-direction: row;
     justify-content: center;
     position: relative;
     width: 100%; /* Set a specific width if needed */
     height: 800px; /* Set a specific height if needed */
-    border: 1px solid #ccc; /* Optional: Add a border for visibility */
 }
 
 #roomName{
     display: flex;
     justify-content: center;
     font-size: 32pt;
-    font-family: 'Roboto';
+    font-family: var(--font-family);
+    background-color: var(--control-panel-background-color);
+    color: var(--control-panel-color);
 }
 
 .deviceControl{
@@ -24,7 +26,7 @@
     height: 420px;
     width: 320px;
 }
-
+/*rgb(75, 3, 3)*/
 .controlButton{
     font-size: 32pt;
     width: 25vw;
@@ -33,6 +35,8 @@
     align-items: center;
     margin: 0;
     margin-bottom: 10px;
+    background-color: var(--control-button-background-color);
+    color: var(--control-button-color);
 }
 
 .indicator{
@@ -80,4 +84,30 @@
 
 .delete-device-button:hover {
     background-color: #630a0a;
+}
+
+.toolbar-item{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20pt;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    width: 100%;
+}
+
+.toolbar-item p{
+    margin: 0;
+}
+
+.toolbar-item-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.add-device-button{
+    color: var(--control-button-color);
+    background-color: var(--control-button-background-color);
 }

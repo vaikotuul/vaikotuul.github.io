@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import deviceStateReducer from './deviceStateSlice';
 import controlPanelReducer from './controlPanelSlice';
 import deviceListSliceReducer from './deviceListSlice';
+import roomColorsReducer from './roomColorsSlice';
 
 // Import your reducers here (example: roomReducer)
 // import roomReducer from '../features/room/roomSlice';
@@ -36,6 +37,7 @@ const store = configureStore({
     deviceState: deviceStateReducer,
     controlPanel: controlPanelReducer,
     deviceList: deviceListSliceReducer,
+    roomColors: roomColorsReducer,
   },
   preloadedState, // Use the loaded state as the initial state
 });

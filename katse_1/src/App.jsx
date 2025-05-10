@@ -1,6 +1,5 @@
 
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import './App.css'
 import Login from './Pages/Login'
 import AdminAvaleht from "./Pages/AdminAvaleht"
 import SeadmeteJuhtimine from "./Pages/SeadmeteJuhtimine"

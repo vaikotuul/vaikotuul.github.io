@@ -10,6 +10,7 @@ import { RootState, AppDispatch } from '../store/store';
 import { setDeviceState } from '../store/deviceStateSlice';
 import { setPosition, setSize } from '../store/controlPanelSlice';
 import { addDevice, removeDevice } from '../store/deviceListSlice';
+import { setRoomColor } from '../store/roomColorsSlice';
 import { Rnd } from 'react-rnd';
 import Modal from 'react-modal';
 
@@ -22,6 +23,97 @@ type RoomControlProps = {
     roomId: string;
     devices: Device[];
 };
+
+type ChangeColorProps = {
+  roomId: string; // Ensure roomId is always a string
+};
+
+function Toolbar({ roomId }: { roomId: string }){
+
+  return(
+    <>
+      <AddDeviceButton roomId={roomId || 'default-room'}/>
+      <ChangeControlPanel roomId={roomId || 'default-room'}/>
+      <ChangeHeader roomId={roomId || 'default-room'} />
+    </>
+  )
+}
+
+function ChangeControlPanel({ roomId }: ChangeColorProps) {
+  const dispatch = useDispatch();
+
+  const handleColorChange = (key, value: string) => {
+    console.log('roomId in ChangeControlPanel:', roomId);
+    dispatch(setRoomColor({ roomId, key, value }));
+  };
+
+  return(
+    <div className='toolbar-item-container'>
+      <div className='toolbar-item'>
+        <p>Muuda kontroll-paneeli taustavärvi</p>
+        <input 
+          type="color" 
+          id="controlPanelBackgroundColor" 
+          onChange={(e) => handleColorChange('controlPanelBackgroundColor', e.target.value)}
+        />
+      </div>
+      <div className='toolbar-item'>
+        <p>Muuda kontroll-paneeli teksti värvi</p>
+        <input 
+          type="color" 
+          id="controlPanelColor" 
+          onChange={(e) => handleColorChange('controlPanelColor', e.target.value)}
+        />
+      </div>
+      <div className='toolbar-item'>
+        <p>Muuda nuppude taustavärvi</p>
+        <input 
+          type="color"
+          id="controlButtonBackgroundColor" 
+          onChange={(e) => handleColorChange('controlButtonBackgroundColor', e.target.value)}
+        />
+      </div>
+      <div className='toolbar-item'>
+        <p>Muuda nuppude teksti värvi</p>
+        <input 
+          type="color"
+          id="controlButtonColor" 
+          onChange={(e) => handleColorChange('controlButtonColor', e.target.value)}
+        />
+      </div>
+    </div>
+  )
+}
+
+function ChangeHeader({ roomId }: ChangeColorProps) {
+  const dispatch = useDispatch();
+
+  const handleColorChange = (key, value: string) => {
+    console.log('roomId in ChangeHeader:', roomId);
+    dispatch(setRoomColor({ roomId, key, value }));
+  };
+
+  return(
+    <div className='toolbar-item-container'>
+      <div className='toolbar-item'>
+        <p>Muuda päise taustavärvi</p>
+        <input 
+          type="color"
+          id="headerBackgroundColor"
+          onChange={(e) => handleColorChange('headerBackgroundColor', e.target.value)}
+        />
+      </div>
+      <div className='toolbar-item'>
+        <p>Muuda päise teksti värvi</p>
+        <input 
+          type="color"
+          id="headerBackgroundColor" 
+          onChange={(e) => handleColorChange('headerColor', e.target.value)}
+        />
+      </div>
+    </div>
+  )
+}
 
 Modal.setAppElement('#root'); // Required for accessibility
 
@@ -67,14 +159,11 @@ function AddDeviceButton({ roomId }: { roomId: string }) {
           onClick={() => setIsModalOpen(true)}
           className="add-device-button"
           style={{
-            position: 'fixed',
-            left: '180px',
-            top: '15px',
             fontSize: '20pt',
-            fontFamily: 'system-ui, Avenir, Helvetica, Arial, sans-serif',
+            fontFamily: 'var(--font-family)',
           }}
         >
-          Add Device
+          Lisa seade
         </button>
         <Modal
           isOpen={isModalOpen}
@@ -111,7 +200,36 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
     const controlPanelSizes = useSelector(
       (state: RootState) => state.controlPanel[roomId] || {}
     );
-  
+    const colors = useSelector((state: RootState) => state.roomColors[roomId] || {});
+
+    useEffect(() => {
+      // Update CSS variables dynamically
+      document.documentElement.style.setProperty(
+        '--control-panel-background-color',
+        colors.controlPanelBackgroundColor || 'white'
+      );
+      document.documentElement.style.setProperty(
+        '--control-panel-color',
+        colors.controlPanelColor || 'black'
+      );
+      document.documentElement.style.setProperty(
+        '--control-button-background-color',
+        colors.controlButtonBackgroundColor || 'white'
+      );
+      document.documentElement.style.setProperty(
+        '--control-button-color',
+        colors.controlButtonColor || 'black'
+      );
+      document.documentElement.style.setProperty(
+        '--header-background-color',
+        colors.headerBackgroundColor || 'white'
+      );
+      document.documentElement.style.setProperty(
+        '--header-color',
+        colors.headerColor || 'black'
+      );
+    }, [colors]); // Re-run when colors change
+
     const handleDeviceToggle = (deviceId: string, deviceName: string, turnOn: boolean) => {
       if (deviceStates[deviceId] !== turnOn) {
         dispatch(setDeviceState({ roomId, deviceId, state: turnOn }));
@@ -190,7 +308,36 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
     const controlPanelSizes = useSelector(
       (state: RootState) => state.controlPanel[roomId] || {}
     );
-  
+    const colors = useSelector((state: RootState) => state.roomColors[roomId] || {});
+
+    useEffect(() => {
+      // Update CSS variables dynamically
+      document.documentElement.style.setProperty(
+        '--control-panel-background-color',
+        colors.controlPanelBackgroundColor || 'white'
+      );
+      document.documentElement.style.setProperty(
+        '--control-panel-color',
+        colors.controlPanelColor || 'black'
+      );
+      document.documentElement.style.setProperty(
+        '--control-button-background-color',
+        colors.controlButtonBackgroundColor || 'white'
+      );
+      document.documentElement.style.setProperty(
+        '--control-button-color',
+        colors.controlButtonColor || 'black'
+      );
+      document.documentElement.style.setProperty(
+        '--header-background-color',
+        colors.headerBackgroundColor || 'white'
+      );
+      document.documentElement.style.setProperty(
+        '--header-color',
+        colors.headerColor || 'black'
+      );
+    }, [colors]); // Re-run when colors change
+
     const handleDragStop = (deviceId: string, x: number, y: number) => {
       dispatch(
         setPosition({
@@ -228,9 +375,24 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
         <div id="roomEdit">
           <div id="roomName">
             <span>{roomId}</span>
-            <AddDeviceButton roomId={roomId || 'default-room'}/>
           </div>
-          <div id="controlPanel" style={{border:"2px solid white"}}>
+          <div 
+            id="toolbar"
+            style={{
+              display: 'flex',
+              flexDirection: 'row'
+            }}
+          >
+            <Toolbar roomId={roomId || 'default-room'}/>
+          </div>
+          <div 
+            id="controlPanel" 
+            style={{
+              border:"2px solid white",
+              backgroundColor: colors.controlPanelBackgroundColor,
+              color: colors.controlPanelColor,
+            }}
+          >
             {devices.map((device) => {
               const position = controlPanelPositions[device.id]?.position || { x: 0, y: 0 };
               const size = controlPanelSizes[device.id]?.size || { width: 320, height: 420 };
@@ -282,7 +444,7 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
                     <span
                       className="indicator"
                       style={{
-                        color: 'black',
+                        color: colors.controlPanelColor,
                         width: '100%',
                         height: '100%',
                         justifyContent: 'center',
@@ -296,10 +458,11 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
                     <button
                       className="controlButton"
                       style={{
+                        backgroundColor: colors.controlButtonBackgroundColor,
+                        color: colors.controlButtonColor,
                         width: '100%',
                         height: '30%',
                         cursor: 'not-allowed', // Change cursor to indicate disabled state
-                        opacity: 0.5, // Optional: Make the button look disabled
                       }}
                       disabled // Disable the button
                     >
@@ -308,10 +471,11 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
                     <button
                       className="controlButton"
                       style={{
+                        backgroundColor: colors.controlButtonBackgroundColor,
+                        color: colors.controlButtonColor,
                         width: '100%',
                         height: '30%',
                         cursor: 'not-allowed', // Change cursor to indicate disabled state
-                        opacity: 0.5, // Optional: Make the button look disabled
                       }}
                       disabled // Disable the button
                     >
@@ -332,23 +496,31 @@ type KujundusProps = {
 
 export function KujundusAdmin({ mode }: KujundusProps) {
     const { room } = useParams<{ room: string }>(); // Extract roomId from URL parameters
+    const roomId = room || 'default-room';
 
-    const devices = useSelector((state: RootState) => state.deviceList[room || 'default-room'] || [])
+    const devices = useSelector((state: RootState) => state.deviceList[roomId || 'default-room'] || [])
+    const colors = useSelector((state: RootState) => state.roomColors[roomId || 'default-room'] || {});
 
     return (
         <>
-            <div id="header">
+            <div 
+              id="header"
+              style={{
+                backgroundColor: colors.headerBackgroundColor,
+                color: colors.headerColor,
+              }}
+            >
                 <Tagasi />
                 <h1>{mode === 'control' ? 'Seadmete juhtimine' : 'Kasutajaliidese redigeerimine'}</h1>
             </div>
             {mode === 'control' ? (
                 <>
-                  <RoomControl roomId={room || 'default-room'} devices={devices} />
+                  <RoomControl roomId={roomId || 'default-room'} devices={devices} />
                   <ToastContainer aria-label="Notification container" />
                 </>
             ) : (
                 <>
-                  <RoomEdit roomId={room || 'default-room'} devices={devices} />
+                  <RoomEdit roomId={roomId || 'default-room'} devices={devices} />
                   <ToastContainer aria-label="Notification container" />
                 </>
             )}
@@ -357,18 +529,26 @@ export function KujundusAdmin({ mode }: KujundusProps) {
 }
 
 export function KujundusUser() {
-  const { room } = useParams<{ room: string}>();
+  const { room } = useParams<{ room: string }>(); // Extract roomId from URL parameters
+  const roomId = room || 'default-room';
 
-  const devices = useSelector((state: RootState) => state.deviceList[room || 'default-room'] || [])
+  const devices = useSelector((state: RootState) => state.deviceList[roomId || 'default-room'] || []);
+  const colors = useSelector((state: RootState) => state.roomColors[roomId || 'default-room'] || {});
 
-  return(
+  return (
     <>
-      <div id="header">
+      <div
+        id="header"
+        style={{
+          backgroundColor: colors.headerBackgroundColor,
+          color: colors.headerColor,
+        }}
+      >
         <LogoutButton />
         <h1>Seadmete Juhtimine</h1>
       </div>
-      <RoomControl roomId={room || 'default-room'} devices={devices} />
+      <RoomControl roomId={roomId || 'default-room'} devices={devices} />
       <ToastContainer aria-label="Notification container" />
     </>
-  )
+  );
 }
