@@ -8,8 +8,8 @@ type DeviceState = {
 
 const initialState: DeviceState = {};
 
-const deviceSlice = createSlice({
-  name: 'devices',
+const deviceStateSlice = createSlice({
+  name: 'deviceState',
   initialState,
   reducers: {
     setDeviceState(
@@ -29,5 +29,5 @@ const deviceSlice = createSlice({
   },
 });
 
-export const { setDeviceState } = deviceSlice.actions;
-export default deviceSlice.reducer;
+export const { setDeviceState } = deviceStateSlice.actions;
+export default deviceStateSlice.reducer;

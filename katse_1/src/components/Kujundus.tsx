@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import '../Kujundus.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store';
-import { setDeviceState } from '../store/deviceSlice';
+import { setDeviceState } from '../store/deviceStateSlice';
 import { setPosition, setSize } from '../store/controlPanelSlice';
 import { addDevice, removeDevice } from '../store/deviceListSlice';
 import { Rnd } from 'react-rnd';
@@ -104,7 +104,7 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
     const dispatch = useDispatch<AppDispatch>();
   
     // Fetch device states, positions, and sizes from the Redux store
-    const deviceStates = useSelector((state: RootState) => state.devices[roomId] || {});
+    const deviceStates = useSelector((state: RootState) => state.deviceState[roomId] || {});
     const controlPanelPositions = useSelector(
       (state: RootState) => state.controlPanel[roomId] || {}
     );

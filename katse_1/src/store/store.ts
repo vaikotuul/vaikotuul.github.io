@@ -1,17 +1,48 @@
 import { configureStore } from '@reduxjs/toolkit';
-import deviceReducer from './deviceSlice';
+import deviceStateReducer from './deviceStateSlice';
 import controlPanelReducer from './controlPanelSlice';
 import deviceListSliceReducer from './deviceListSlice';
 
 // Import your reducers here (example: roomReducer)
 // import roomReducer from '../features/room/roomSlice';
 
+// Function to save state to localStorage
+function saveStateToLocalStorage(state: RootState) {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('reduxState', serializedState);
+  } catch (e) {
+    console.error('Could not save state to localStorage', e);
+  }
+}
+
+// Function to load state from localStorage
+function loadStateFromLocalStorage() {
+  try {
+    const serializedState = localStorage.getItem('reduxState');
+    if (serializedState === null) return undefined; // No saved state
+    return JSON.parse(serializedState);
+  } catch (e) {
+    console.error('Could not load state from localStorage', e);
+    return undefined;
+  }
+}
+
+// Load the persisted state from localStorage
+const preloadedState = loadStateFromLocalStorage();
+
 const store = configureStore({
   reducer: {
-    devices: deviceReducer,
+    deviceState: deviceStateReducer,
     controlPanel: controlPanelReducer,
     deviceList: deviceListSliceReducer,
   },
+  preloadedState, // Use the loaded state as the initial state
+});
+
+// Subscribe to store changes and save to localStorage
+store.subscribe(() => {
+  saveStateToLocalStorage(store.getState());
 });
 
 // Export the store
