@@ -310,6 +310,7 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
     );
     const colors = useSelector((state: RootState) => state.roomColors[roomId] || {});
 
+
     useEffect(() => {
       // Update CSS variables dynamically
       document.documentElement.style.setProperty(

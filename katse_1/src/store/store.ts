@@ -21,7 +21,10 @@ function saveStateToLocalStorage(state: RootState) {
 function loadStateFromLocalStorage() {
   try {
     const serializedState = localStorage.getItem('reduxState');
-    if (serializedState === null) return undefined; // No saved state
+    if (serializedState === null) {
+      // Return default state if nothing is in localStorage
+      return undefined;
+  }
     return JSON.parse(serializedState);
   } catch (e) {
     console.error('Could not load state from localStorage', e);
