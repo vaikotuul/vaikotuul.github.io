@@ -1,16 +1,11 @@
 import React, { useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 interface ToiminguLisaminePropTypes {
   onSave: (action: { time: string; room: string; device: string; activity: string }) => void;
   onCancel: () => void;
 }
-
-// Defining the room to devices mapping
-const roomDevices = {
-  'A-001': ['Tuled', 'Ekraan', 'Projektor'],
-  'A-002': ['Tuled', 'Ekraan'],
-  'A-003': ['Tuled', 'Projektor']
-};
 
 function ToiminguLisamine({ onSave, onCancel }: ToiminguLisaminePropTypes) {
   const [timeType, setTimeType] = useState<string | null>(null);
@@ -24,15 +19,19 @@ function ToiminguLisamine({ onSave, onCancel }: ToiminguLisaminePropTypes) {
   const [time, setTime] = useState('');
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
+  // Get deviceList from Redux store
+  const deviceList = useSelector((state: RootState) => state.deviceList);
+
   const rooms = ['A-001', 'A-002', 'A-003'];
   const activities = ['ON', 'OFF'];
   const workdays = ['E', 'T', 'K', 'N', 'R']; // for iga nädal
 
-  // Get available devices based on selected room
+  // Get available devices based on selected room using Redux state
   const availableDevices = useMemo(() => {
     if (!selectedRoom) return [];
-    return roomDevices[selectedRoom as keyof typeof roomDevices] || [];
-  }, [selectedRoom]);
+    const roomDevices = deviceList[selectedRoom] || [];
+    return roomDevices.map(device => device.name);
+  }, [selectedRoom, deviceList]);
 
   // Reset selected device when room changes
   const handleRoomSelect = (room: string) => {
