@@ -202,10 +202,6 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
     );
     const colors = useSelector((state: RootState) => state.roomColors[roomId] || {});
 
-    const buttonPositions = useSelector(
-      (state: RootState) => state.controlPanel.buttonPositions[roomId] || {}
-    );
-
     useEffect(() => {
       // Update CSS variables dynamically
       document.documentElement.style.setProperty(
@@ -314,9 +310,6 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
     );
     const colors = useSelector((state: RootState) => state.roomColors[roomId] || {});
 
-    const buttonPositions = useSelector(
-      (state: RootState) => state.controlPanel.buttonPositions[roomId] || {}
-    );
 
     useEffect(() => {
       // Update CSS variables dynamically
