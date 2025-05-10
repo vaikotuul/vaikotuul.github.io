@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import "../Login.css"
 import { useAuth } from '../context/AuthContext';
+import ResetColors from '../components/TaastaVarv';
 
 
 function Login() {
@@ -31,6 +32,7 @@ function Login() {
 
   return (
     <>
+    <ResetColors />
     <form className='login-form' onSubmit={handleSubmit}>
         <input type="text"
           placeholder="username"

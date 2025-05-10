@@ -30,7 +30,6 @@ function Tagasi(){
           'var(--default-control-panel-background-color)'
         );
   }, []);
-
     
   return(
     <>

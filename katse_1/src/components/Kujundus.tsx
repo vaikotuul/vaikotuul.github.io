@@ -206,27 +206,27 @@ function RoomControl({ roomId, devices }: RoomControlProps) {
       // Update CSS variables dynamically
       document.documentElement.style.setProperty(
         '--control-panel-background-color',
-        colors.controlPanelBackgroundColor || 'white'
+        colors.controlPanelBackgroundColor || 'var(--default-control-panel-background-color)'
       );
       document.documentElement.style.setProperty(
         '--control-panel-color',
-        colors.controlPanelColor || 'black'
+        colors.controlPanelColor || 'var(--default-control-panel-color)'
       );
       document.documentElement.style.setProperty(
         '--control-button-background-color',
-        colors.controlButtonBackgroundColor || 'white'
+        colors.controlButtonBackgroundColor || 'var(--default-button-background-color)'
       );
       document.documentElement.style.setProperty(
         '--control-button-color',
-        colors.controlButtonColor || 'black'
+        colors.controlButtonColor || 'var(--default-button-color)'
       );
       document.documentElement.style.setProperty(
         '--header-background-color',
-        colors.headerBackgroundColor || 'white'
+        colors.headerBackgroundColor || 'var(--default-header-background-color)'
       );
       document.documentElement.style.setProperty(
         '--header-color',
-        colors.headerColor || 'black'
+        colors.headerColor || 'var(--default-header-color)'
       );
     }, [colors]); // Re-run when colors change
 
@@ -315,27 +315,27 @@ function RoomEdit({ roomId, devices }: RoomControlProps) {
       // Update CSS variables dynamically
       document.documentElement.style.setProperty(
         '--control-panel-background-color',
-        colors.controlPanelBackgroundColor || 'white'
+        colors.controlPanelBackgroundColor || 'var(--default-control-panel-background-color)'
       );
       document.documentElement.style.setProperty(
         '--control-panel-color',
-        colors.controlPanelColor || 'black'
+        colors.controlPanelColor || 'var(--default-control-panel-color)'
       );
       document.documentElement.style.setProperty(
         '--control-button-background-color',
-        colors.controlButtonBackgroundColor || 'white'
+        colors.controlButtonBackgroundColor || 'var(--default-button-background-color)'
       );
       document.documentElement.style.setProperty(
         '--control-button-color',
-        colors.controlButtonColor || 'black'
+        colors.controlButtonColor || 'var(--default-button-color)'
       );
       document.documentElement.style.setProperty(
         '--header-background-color',
-        colors.headerBackgroundColor || 'white'
+        colors.headerBackgroundColor || 'var(--default-header-background-color)'
       );
       document.documentElement.style.setProperty(
         '--header-color',
-        colors.headerColor || 'black'
+        colors.headerColor || 'var(--default-header-color)'
       );
     }, [colors]); // Re-run when colors change
 

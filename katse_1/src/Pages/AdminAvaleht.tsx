@@ -2,11 +2,13 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext';
 import LogoutButton from '../components/Logout';
+import ResetColors from '../components/TaastaVarv';
 
 export default function AdminAvaleht() {
 
   return (
     <>
+    <ResetColors />
       <header>
           <LogoutButton/>
       </header>

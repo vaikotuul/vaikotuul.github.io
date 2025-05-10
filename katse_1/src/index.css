@@ -6,7 +6,7 @@ html, body {
 }
 
 :root {
-  --font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family: 'Roboto', system-ui, Avenir, Helvetica, Arial, sans-serif;
   --control-panel-background-color: rgb(108, 7, 7);
   --control-panel-color: white;
   --control-button-background-color: #1a1a1a;
@@ -39,11 +39,16 @@ body {
   min-width: 320px;
   min-height: 100vh;
   width: 100%;
+  font-family: var(--font-family);
+  line-height: 1.6;
+  color: var(--control-panel-color);
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 button {
@@ -55,11 +60,16 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: var(--control-button-color);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 button:hover {
   border-color: #646cff;
+  background-color: #333333;
+  transform: scale(1.05);
 }
 button:focus,
 button:focus-visible {
@@ -97,7 +107,7 @@ header{
 }
 
 .back-button {
-  position: fixed;
+  position: absolute;
   font-size: 20pt;
   top: 15px;
   left: 10px;
