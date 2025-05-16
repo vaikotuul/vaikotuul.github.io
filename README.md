@@ -5,7 +5,7 @@
 [Blogi](https://github.com/tammmatTLU/suvepraktika_tiim2/wiki/blogi)
 
 ### HiFi prototüübi käivitusjuhend
-1. *Fork*'i projekti repositoorium.
+1. *Fork*'i projekti repositoorium või loo Codespace *main* branchist .
 1. *Clone*'i see repositoorium enda arvutisse/serverisse ja ava GitHub dektopiga või ava Codespace.
   ```
   git clone https://YOURUSERNAME@github.com/YOURUSERNAME/REPOSITORY.git
